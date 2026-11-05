@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
   ArrowDown, ArrowUpRight, Bot, BrainCircuit, Check, ChevronDown, CircleCheck,
-  Cloud, Code2, Database, Globe2, Headphones, Menu, Moon, Network,
+  Cloud, Code2, Database, Headphones, Menu, Moon, Network,
   Phone, Server, ShieldCheck, Sparkles, Sun, X, Zap
 } from 'lucide-react';
 import './styles.css';
@@ -80,13 +80,16 @@ const copy = {
 
 function App() {
   const [theme, setTheme] = useState('light');
-  const [language, setLanguage] = useState('en');
+  const [language] = useState('en');
   const [menuOpen, setMenuOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
   const t = copy[language];
 
-  useEffect(() => { document.documentElement.dataset.theme = theme; }, [theme]);
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    document.documentElement.lang = language === 'my' ? 'my' : 'en';
+  }, [theme, language]);
   useEffect(() => {
     const revealItems = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
@@ -124,7 +127,6 @@ function App() {
           {t.nav.map((item, index) => <a key={item} href={['#solutions', '#experience', '#about', '#contact'][index]} onClick={() => setMenuOpen(false)}>{item}</a>)}
         </nav>
         <div className="header-actions">
-          <button className="language-toggle" onClick={() => setLanguage(language === 'en' ? 'my' : 'en')} aria-label="Switch language"><Globe2 size={16} /> {language === 'en' ? 'မြန်မာ' : 'EN'}</button>
           <button className="theme-toggle" onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} aria-label="Toggle dark mode">{theme === 'light' ? <Moon size={17} /> : <Sun size={17} />}</button>
           <a className="header-cta" href="#contact">Talk to us <ArrowUpRight size={16} /></a>
           <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">{menuOpen ? <X /> : <Menu />}</button>
